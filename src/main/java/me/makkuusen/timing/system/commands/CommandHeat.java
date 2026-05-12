@@ -181,7 +181,9 @@ public class CommandHeat extends BaseCommand {
         boolean boatSwitchingEnabled = heat.getBoatSwitching() != null && heat.getBoatSwitching();
         
         if (boatSwitchingEnabled && !heat.getTeamEntries().isEmpty()) {
-            for (TeamHeatEntry teamEntry : heat.getTeamEntries().values()) {
+            List<TeamHeatEntry> sortedTeamEntries = new ArrayList<>(heat.getTeamEntries().values());
+            sortedTeamEntries.sort((a, b) -> Integer.compare(a.getStartPosition(), b.getStartPosition()));
+            for (TeamHeatEntry teamEntry : sortedTeamEntries) {
                 TPlayer activeDriver = teamEntry.getActiveDriver();
                 String activeDriverName = activeDriver != null ? activeDriver.getName() : "none";
                 String teamName = teamEntry.getTeam() != null ? teamEntry.getTeam().getDisplayName() : "Unknown Team";
